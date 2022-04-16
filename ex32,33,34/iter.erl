@@ -15,7 +15,7 @@
 % loop(I,N)->
 %      io:format("~p~n",[I]),
 %      loop(I+1,N).
-
+%+++++++++++++++++++++++onter solution
 sum(N) ->
     sum(N, 0).
 
