@@ -1,6 +1,6 @@
 -module(recursion_over_lists).
--export([nth/2,subList/2]).
-
+-export([nth/2,subList/2,seq/2]).
+%+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++2B
 nth(Index,List) when is_list(List),length(List)>0,Index=<length(List) ->
     loop(Index,List).
 
@@ -21,6 +21,24 @@ subList2([H|T],1)->
     [F,A];
 subList2([_|T],I)->
    subList2(T,I-1).
+
+seq(Low,High) when is_integer(Low), is_integer(High) ->
+    seq1(Low,High,[]).
+
+seq1(L,H,List) when L=<H->
+    seq1(L+1,H,[L|List]);
+seq1(_,_,L)->
+    lists:reverse(L).
+    
+
+     
+
+
+
+
+%++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++2C
+ 
+
   
 
 
