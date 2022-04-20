@@ -22,6 +22,7 @@ subList2([H|T],1)->
 subList2([_|T],I)->
    subList2(T,I-1).
 
+%++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 seq(Low,High) when is_integer(Low), is_integer(High) ->
     seq1(Low,High,[]).
 
