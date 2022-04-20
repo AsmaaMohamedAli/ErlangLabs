@@ -1,5 +1,5 @@
 -module(logic).
--export([createTable/0,store_subscriber/1,print_all/0]).
+-export([createTable/0,store_subscriber/1,print_all/0,lookup/1,delete_subscriber/1]).
 -include("dataRecord.hrl").
 
 createTable()->
@@ -21,7 +21,16 @@ store_subscriber({Sub_id,Account_id,Last_deduction_date,Next_deduction_date,Inst
      mnesia:dirty_write(P).
    
        
-     
+    delete_subscriber(Id) ->
+        S = lookup_subscriber(SubscriberID),
+        delete_subscriber2(S).
+    
+    delete_subscriber2([]) ->
+        io:format("not exist~n");
+    
+    delete_subscriber2([S]) ->
+        mnesia:dirty_delete(subscriber, Subscriber#subscriber.sub_id),
+        io:format("deleted~n").
     lookuSubscribers(Id)->
         mnesia:dirty_read(subscriber,Id). 
     print_all()->
