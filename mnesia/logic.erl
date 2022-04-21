@@ -19,11 +19,14 @@ store_subscriber({Sub_id,Account_id,Last_deduction_date,Next_deduction_date,Inst
       installments_completed=Installments_completed
       },
      mnesia:dirty_write(P).
-   
-       
-    delete_subscriber(Id) ->
-        S = lookup_subscriber(SubscriberID),
-        delete_subscriber2(S).
+%+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+ %++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++   
+ delete_subscriber(Id) ->
+    S = lookup_subscriber(SubscriberID),
+    delete_subscriber2(S).
     
     delete_subscriber2([]) ->
         io:format("not exist~n");
@@ -31,8 +34,11 @@ store_subscriber({Sub_id,Account_id,Last_deduction_date,Next_deduction_date,Inst
     delete_subscriber2([S]) ->
         mnesia:dirty_delete(subscriber, Subscriber#subscriber.sub_id),
         io:format("deleted~n").
+    %+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     lookuSubscribers(Id)->
         mnesia:dirty_read(subscriber,Id). 
+
+    %+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     print_all()->
         mnesia:dirty_select(subscriber, [{'_',[],['$_']}]).
 
