@@ -7,12 +7,12 @@
 -export([start_link/0, add_handler/0]).
 
 %% gen_event callbacks
--export([init/1, handle_event/2, handle_call/2, 
+-export([init/1,day/2,night/2, handle_event/2, handle_call/2, 
 	 handle_info/2, terminate/2, code_change/3]).
 
 -define(SERVER, ?MODULE). 
 
--record(state, {}).
+
 
 
 start_link() ->
@@ -33,7 +33,26 @@ add_handler() ->
 %%%===================================================================
 
 init([]) ->
-    {ok, #state{}}.
+    io:format("day_night_events now is starting ++ day started~n"),
+    {ok,day,[]}.
+
+day(sunRise,State)->
+    io:format("Now is Day~n"),
+    {next_state, day,[day|State]};
+day(sunSet,State)->
+    io:format("Now is Night~n"),
+    {next_state, night,[night|State]}.
+
+night(sunRise,State)->
+    io:format("Now is Day~n"),
+    {next_state,day,[day|State]};
+
+night(sunSet,State)->
+    io:formate("Now is Night~n"),
+    {next_state,night,[night|State]}.
+
+
+
 
 handle_event(_Event, State) ->
     {ok, State}.
