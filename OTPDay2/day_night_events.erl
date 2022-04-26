@@ -1,7 +1,7 @@
 
 -module(day_night_events).
 
--behaviour(gen_event).
+-behaviour(gen_statem).
 
 %% API
 -export([start_link/0, add_handler/0]).
@@ -16,7 +16,7 @@
 
 
 start_link() ->
-    gen_event:start_link({local, ?SERVER}).
+    gen_statem:start_link({local,?SERVER},?MODULE, [], []).
 
 %%--------------------------------------------------------------------
 %% @doc
@@ -36,20 +36,43 @@ init([]) ->
     io:format("day_night_events now is starting ++ day started~n"),
     {ok,day,[]}.
 
-day(sunRise,State)->
+day(_EventType,sunRise,State)->
     io:format("Now is Day~n"),
-    {next_state, day,[day|State]};
-day(sunSet,State)->
-    io:format("Now is Night~n"),
-    {next_state, night,[night|State]}.
+    {keep_state,[day|State]};
 
-night(sunRise,State)->
+day(_EventType,sunSet,State)->
+    io:format("Now is Night~n"),
+    {next_state, night,[night|State]};
+    
+
+day(_EventType,show_info,State)->
+    io:format("StateData Info ~p~n",[State]),
+    {keep_state,[State]};
+
+day(_EventType,_Event,State)->
+    io:format("up normal event ~n"),
+    {keep_state,[upNormal|State]}.
+
+
+night(_EventType,sunRise,State)->
     io:format("Now is Day~n"),
     {next_state,day,[day|State]};
 
-night(sunSet,State)->
+night(_EventType,sunSet,State)->
     io:formate("Now is Night~n"),
-    {next_state,night,[night|State]}.
+    {keep_state,[night|State]};
+    
+day(_EventType,show_info,State)->
+    io:format("StateData Info ~p~n",[State]),
+    {keep_state,[State]};
+
+night(_EventType,_Event,State)->
+    io:format("up normal event ~n"),
+    {keep_state,[upNormal|State]}.
+
+    
+
+
 
 
 
